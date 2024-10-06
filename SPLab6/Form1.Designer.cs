@@ -31,59 +31,31 @@
             components = new System.ComponentModel.Container();
             studentsGridView = new DataGridView();
             studentBindingSource = new BindingSource(components);
-            fullname = new DataGridViewTextBoxColumn();
-            studentId = new DataGridViewTextBoxColumn();
-            isPresent = new DataGridViewCheckBoxColumn();
             ((System.ComponentModel.ISupportInitialize)studentsGridView).BeginInit();
             ((System.ComponentModel.ISupportInitialize)studentBindingSource).BeginInit();
             SuspendLayout();
             // 
             // studentsGridView
             // 
-            studentsGridView.AutoGenerateColumns = false;
             studentsGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            studentsGridView.Columns.AddRange(new DataGridViewColumn[] { fullname, studentId, isPresent });
-            studentsGridView.DataSource = studentBindingSource;
-            studentsGridView.Location = new Point(133, 62);
+            studentsGridView.Location = new Point(116, 46);
+            studentsGridView.Margin = new Padding(3, 2, 3, 2);
             studentsGridView.Name = "studentsGridView";
             studentsGridView.RowHeadersWidth = 51;
-            studentsGridView.Size = new Size(508, 309);
+            studentsGridView.Size = new Size(444, 232);
             studentsGridView.TabIndex = 0;
             // 
             // studentBindingSource
             // 
             studentBindingSource.DataSource = typeof(Student);
             // 
-            // fullname
-            // 
-            fullname.HeaderText = "Fullname";
-            fullname.MinimumWidth = 6;
-            fullname.Name = "fullname";
-            fullname.ReadOnly = true;
-            fullname.Width = 125;
-            // 
-            // studentId
-            // 
-            studentId.HeaderText = "Student ID";
-            studentId.MinimumWidth = 6;
-            studentId.Name = "studentId";
-            studentId.ReadOnly = true;
-            studentId.Width = 125;
-            // 
-            // isPresent
-            // 
-            isPresent.HeaderText = "Present";
-            isPresent.MinimumWidth = 6;
-            isPresent.Name = "isPresent";
-            isPresent.ReadOnly = true;
-            isPresent.Width = 125;
-            // 
             // Form1
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(700, 338);
             Controls.Add(studentsGridView);
+            Margin = new Padding(3, 2, 3, 2);
             Name = "Form1";
             Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)studentsGridView).EndInit();
@@ -95,8 +67,5 @@
 
         private DataGridView studentsGridView;
         private BindingSource studentBindingSource;
-        private DataGridViewTextBoxColumn fullname;
-        private DataGridViewTextBoxColumn studentId;
-        private DataGridViewCheckBoxColumn isPresent;
     }
 }
