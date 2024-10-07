@@ -30,7 +30,7 @@ public class RegistrationActivity extends AppCompatActivity {
             if (name.isEmpty() || studentId.isEmpty()) {
                 Toast.makeText(RegistrationActivity.this, "Пожалуйста, заполните все поля", Toast.LENGTH_SHORT).show();
             } else {
-                // Сохранение данных в SharedPreferences
+
                 SharedPreferences sharedPreferences = getSharedPreferences("StudentData", MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("Name", name);
@@ -38,7 +38,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 editor.apply();
 
                 Toast.makeText(RegistrationActivity.this, "Регистрация успешна", Toast.LENGTH_SHORT).show();
-                finish(); // Закрыть активность и вернуться назад
+                finish();
             }
         });
     }
