@@ -9,35 +9,37 @@ namespace SPLab6
 {
     public partial class Form1 : Form
     {
-        BindingList<Student> present = new BindingList<Student>();
+        BindingList<Student> studentsList = new BindingList<Student>();
         private TcpListener _server;
         private Thread _listenThread;
+        private volatile bool _isRunning;
 
         public Form1()
         {
             InitializeComponent();
             loadData();
-            
             StartServer();
+            
         }
 
         private void loadData()
         {
             
-            present = new BindingList<Student>
+            studentsList = new BindingList<Student>
             {
-                new ("Вася Компотный", "123", false),
-                
+                new ("Р’Р°СЃСЏ РљРѕРјРїРѕС‚РЅС‹Р№", "123", false),
+                new ("РРЅРЅРѕРєРµРЅС‚РёР№", "234", false),
+                new ("РђРєР°РєРёР№", "345", false),
             };
 
             
-            studentsGridView.DataSource = present;
-            //studentsGridView.Refresh();
-            //studentsGridView.
+            studentsGridView.DataSource = studentsList;
+            
         }
 
         private void StartServer()
         {
+            _isRunning = true;
             _server = new TcpListener(IPAddress.Any, 8888);
             _server.Start();
             _listenThread = new Thread(ListenForClients);
@@ -46,12 +48,18 @@ namespace SPLab6
 
         private void ListenForClients()
         {
-            while (true)
+            while (_isRunning)
             {
-                TcpClient client = _server.AcceptTcpClient();
-                Thread clientThread = new Thread(HandleClientComm);
-                clientThread.Start(client);
-            }
+                try
+                {
+                    TcpClient client = _server.AcceptTcpClient();
+                    Thread clientThread = new Thread(HandleClientComm);
+                    clientThread.Start(client);
+                    studentsGridView.Invalidate();
+                }
+                catch (SocketException) 
+                { }
+            }    
         }
 
         private void HandleClientComm(object clientObj)
@@ -59,34 +67,22 @@ namespace SPLab6
             TcpClient tcpClient = (TcpClient)clientObj;
             NetworkStream stream = tcpClient.GetStream();
 
+            
+
             byte[] buffer = new byte[1024];
             int bytesRead;
 
-            //MessageBox.Show("Подключено");
+            
 
             while ((bytesRead = stream.Read(buffer, 0, buffer.Length)) > 0)
             {
                 string studentID = Encoding.ASCII.GetString(buffer, 0, bytesRead).Trim();
-
-                // Поиск студента по номеру зачетки
-                var student = present.FirstOrDefault(s => s.studentId == studentID);
+                var student = studentsList.FirstOrDefault(s => s.studentId == studentID);
                 if (student != null)
                 {
-                   student.isPresent = true; // Отметить студента как присутствующего
-            //        Invoke(new Action(() =>
-            //        {
-            //            //txtMessages.AppendText($"Студент {student.Name} ({student.ID}) отмечен как присутствующий.\n");
-            //        }));
+                   student.isPresent = true;
+                  
                 }
-            //    else
-            //    {
-            //        Invoke(new Action(() =>
-            //        {
-            //            //txtMessages.AppendText($"Студент с номером зачетки {studentID} не найден.\n");
-            //        }));
-            //    }
-
-                // Закрыть соединение
                 break;
             }
 
@@ -96,7 +92,8 @@ namespace SPLab6
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            _server.Stop();
+           _isRunning = false;
+           _server.Stop();
            base.OnFormClosing(e);
         }
 
