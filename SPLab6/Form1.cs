@@ -27,9 +27,9 @@ namespace SPLab6
             
             studentsList = new BindingList<Student>
             {
-                new ("Вася Компотный", "123", false),
+                new ("Василий", "123", false),
                 new ("Иннокентий", "234", false),
-                new ("Акакий", "345", false),
+                new ("Варфоломей", "345", false),
             };
 
             
