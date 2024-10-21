@@ -76,16 +76,10 @@ public class StudentActivity extends AppCompatActivity {
             String responseMessage = "";
 
             try (Socket socket = new Socket(ipAddress, 8888);
-                 OutputStream outputStream = socket.getOutputStream();
-                 BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
-
-
+                 OutputStream outputStream = socket.getOutputStream();) {
                 outputStream.write((studentId + "\n").getBytes());
                 outputStream.flush();
-
-
             } catch (IOException e) {
-                e.printStackTrace();
                 responseMessage = "Ошибка при соединении с сервером";
             }
 
